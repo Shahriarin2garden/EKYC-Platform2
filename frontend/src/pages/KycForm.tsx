@@ -135,14 +135,14 @@ function KycForm(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <FormHeader />
 
-        {/* Form Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 transform transition-all duration-300 hover:shadow-3xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Form Card with Glass Effect */}
+        <div className="glass rounded-3xl shadow-2xl p-8 md:p-12 border transform transition-all duration-500 hover:shadow-glow-lg card-hover animate-fade-in-up">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Name Field */}
             <InputField
               label="Full Name"
