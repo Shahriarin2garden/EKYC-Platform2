@@ -23,16 +23,26 @@ process.on('unhandledRejection', (err) => {
 });
 
 // Connect to MongoDB (async but non-blocking)
-connectDB().catch(err => {
-  console.error('Failed to connect to MongoDB:', err.message);
-});
+// eslint-disable-next-line unicorn/prefer-top-level-await
+void (async () => {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('Failed to connect to MongoDB:', err.message);
+  }
+})();
 
 // Start PDF Worker (RabbitMQ consumer)
 // This will connect to RabbitMQ and start listening for PDF generation requests
-pdfWorker.startPdfWorker().catch(err => {
-  console.error('Failed to start PDF Worker:', err.message);
-  console.log('PDF generation will not be available. Make sure RabbitMQ is running.');
-});
+// eslint-disable-next-line unicorn/prefer-top-level-await
+void (async () => {
+  try {
+    await pdfWorker.startPdfWorker();
+  } catch (err) {
+    console.error('Failed to start PDF Worker:', err.message);
+    console.log('PDF generation will not be available. Make sure RabbitMQ is running.');
+  }
+})();
 
 const app = express();
 

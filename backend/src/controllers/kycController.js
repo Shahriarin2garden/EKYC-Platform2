@@ -103,7 +103,7 @@ exports.getAllKyc = async (req, res) => {
     const kycs = await Kyc.find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
-      .limit(parseInt(limit))
+      .limit(Number.parseInt(limit, 10))
       .select('-__v');
 
     // Get total count for pagination
@@ -116,8 +116,8 @@ exports.getAllKyc = async (req, res) => {
         kycs,
         pagination: {
           total,
-          page: parseInt(page),
-          limit: parseInt(limit),
+          page: Number.parseInt(page, 10),
+          limit: Number.parseInt(limit, 10),
           pages: Math.ceil(total / limit)
         }
       }
