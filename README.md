@@ -876,10 +876,6 @@ AI summary generation failed
 - **[Logging Guide](./backend/LOGGING_GUIDE.md)** - Application logging and monitoring
 - **[Design Guide](./frontend/DESIGN_GUIDE.md)** - UI/UX design system and component guidelines
 
-#### Quality & Analysis
-
-- **[SonarQube Quickstart](./SONARQUBE_QUICKSTART.md)** - Code quality analysis setup
-
 ### 🔗 Quick Links
 
 | Category | Documentation | Description |
@@ -891,7 +887,6 @@ AI summary generation failed
 | **Queue** | [RabbitMQ Setup](./backend/RABBITMQ_SETUP.md) | Async PDF processing |
 | **Frontend** | [Design Guide](./frontend/DESIGN_GUIDE.md) | UI components & styling |
 | **Backend** | [Logging Guide](./backend/LOGGING_GUIDE.md) | Application logging |
-| **Quality** | [SonarQube](./SONARQUBE_QUICKSTART.md) | Code analysis |
 
 ## Project Contribution Guidelines
 
