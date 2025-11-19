@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = JWT_SECRET || 'test_jwt_secret_key';
 const auth = require('../../src/middleware/auth');
 const Admin = require('../../src/models/Admin');
+
+// Set JWT_SECRET for testing
+const JWT_SECRET = process.env.JWT_SECRET || 'test_jwt_secret_key';
 
 // Mock dependencies
 jest.mock('../../src/models/Admin');
