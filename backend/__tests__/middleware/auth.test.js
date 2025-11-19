@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = JWT_SECRET || 'test_jwt_secret_key';
 const auth = require('../../src/middleware/auth');
 const Admin = require('../../src/models/Admin');
 
@@ -66,7 +67,7 @@ describe('Auth Middleware Tests', () => {
     test('should reject expired token', async () => {
       const expiredToken = jwt.sign(
         { id: 'user123', email: 'test@example.com' },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: '-1h' }
       );
 
@@ -87,7 +88,7 @@ describe('Auth Middleware Tests', () => {
     test('should reject if admin not found', async () => {
       const validToken = jwt.sign(
         { id: 'nonexistent_id', email: 'test@example.com' },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
 
       req.header.mockReturnValue(`Bearer ${validToken}`);
@@ -108,7 +109,7 @@ describe('Auth Middleware Tests', () => {
     test('should reject if admin is inactive', async () => {
       const validToken = jwt.sign(
         { id: 'admin123', email: 'test@example.com' },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
 
       req.header.mockReturnValue(`Bearer ${validToken}`);
@@ -143,7 +144,7 @@ describe('Auth Middleware Tests', () => {
 
       const validToken = jwt.sign(
         { id: adminData._id, email: adminData.email },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
 
       req.header.mockReturnValue(`Bearer ${validToken}`);
@@ -173,7 +174,7 @@ describe('Auth Middleware Tests', () => {
 
       const validToken = jwt.sign(
         { id: adminData._id, email: adminData.email, role: adminData.role },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
 
       req.header.mockReturnValue(`Bearer ${validToken}`);
@@ -193,7 +194,7 @@ describe('Auth Middleware Tests', () => {
     test('should handle database errors gracefully', async () => {
       const validToken = jwt.sign(
         { id: 'admin123', email: 'test@example.com' },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
 
       req.header.mockReturnValue(`Bearer ${validToken}`);

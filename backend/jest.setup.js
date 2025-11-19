@@ -1,4 +1,5 @@
-﻿// Jest setup file for global configuration
+// Jest setup file for global configuration
+// Set test timeout
 jest.setTimeout(60000);
 
 // Mock environment variables
