@@ -26,6 +26,22 @@ A modern, full-stack Know Your Customer (KYC) application with MongoDB database 
 
 EKYC System is an enterprise-grade solution designed for organizations requiring robust customer verification and data management. The system features a modern React frontend with TypeScript, styled with Tailwind CSS, and a powerful Express.js backend API with MongoDB Atlas database integration for efficient data storage and retrieval.
 
+### 🎥 Demo Video
+
+Watch a complete demonstration of the EKYC Platform in action:
+
+📹 **[View Demo Video](./demos/ekyc-demo.mp4)** - Download and watch the full demonstration
+
+The demo showcases:
+- Modern UI with glassmorphism effects and smooth animations
+- KYC form submission with real-time validation
+- Admin authentication and dashboard
+- Application management and status updates
+- PDF generation and download functionality
+- AI-powered summary generation
+
+> **Note:** The demo video is located in the `demos/` folder. Clone the repository to view it locally.
+
 ### Key Capabilities
 
 - **MongoDB Integration** - Cloud-based MongoDB Atlas for scalable data storage
