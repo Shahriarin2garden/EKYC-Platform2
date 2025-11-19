@@ -35,18 +35,18 @@ const InputField: React.FC<InputFieldProps> = ({
   const isValid = hasValue && !error;
 
   const getInputClassName = (): string => {
-    const baseClasses = 'w-full px-5 py-4 border-2 rounded-2xl transition-all duration-300 outline-none font-medium text-gray-900 placeholder:text-gray-400 placeholder:font-normal';
+    const baseClasses = 'w-full px-5 py-4 border-2 rounded-2xl transition-all duration-300 outline-none font-medium text-gray-900 placeholder:text-gray-400 placeholder:font-normal transform';
     
     if (error) {
-      return `${baseClasses} border-red-400 bg-red-50/50 focus:border-red-500 focus:bg-red-50 focus:ring-4 focus:ring-red-100`;
+      return `${baseClasses} border-red-400 bg-red-50/50 focus:border-red-500 focus:bg-red-50 focus:ring-4 focus:ring-red-100 focus:scale-[1.01]`;
     }
     if (isFocused) {
-      return `${baseClasses} border-blue-400 bg-blue-50/30 shadow-md shadow-blue-100/50 ring-2 ring-blue-200/50`;
+      return `${baseClasses} border-blue-400 bg-blue-50/30 shadow-elevation-2 shadow-blue-100/50 ring-2 ring-blue-200/50 scale-[1.01]`;
     }
     if (isValid && showSuccessIcon) {
-      return `${baseClasses} border-green-400 bg-green-50/30 hover:border-green-500`;
+      return `${baseClasses} border-green-400 bg-green-50/30 hover:border-green-500 hover:shadow-elevation-1`;
     }
-    return `${baseClasses} border-gray-200 bg-gray-50/50 hover:border-gray-300 focus:border-blue-500 focus:bg-blue-50/50 focus:ring-4 focus:ring-blue-100`;
+    return `${baseClasses} border-gray-200 bg-gray-50/50 hover:border-gray-300 hover:shadow-elevation-1 hover:bg-white/80 focus:border-blue-500 focus:bg-blue-50/50 focus:ring-4 focus:ring-blue-100 focus:scale-[1.01]`;
   };
 
   return (

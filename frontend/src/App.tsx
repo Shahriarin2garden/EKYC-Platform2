@@ -38,12 +38,13 @@ const Navigation: React.FC = () => {
             {location.pathname !== '/admin' && location.pathname !== '/admin/register' && (
               <Link 
                 to="/admin" 
-                className="group flex items-center space-x-2 px-6 py-2.5 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md"
+                className="group relative flex items-center space-x-2 px-6 py-2.5 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-purple-50 rounded-xl border border-gray-200 hover:border-blue-300 transition-all duration-300 hover:shadow-elevation-2 transform hover:scale-105"
               >
-                <svg className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                <svg className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">Admin</span>
+                <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors relative z-10">Admin Portal</span>
               </Link>
             )}
           </div>

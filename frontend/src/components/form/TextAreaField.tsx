@@ -33,15 +33,15 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
   const isNearLimit = charCount > maxChars * 0.8;
 
   const getTextAreaClassName = (): string => {
-    const baseClasses = 'w-full px-5 py-4 border-2 rounded-2xl transition-all duration-300 outline-none resize-none font-medium text-gray-900 placeholder:text-gray-400 placeholder:font-normal';
+    const baseClasses = 'w-full px-5 py-4 border-2 rounded-2xl transition-all duration-300 outline-none resize-none font-medium text-gray-900 placeholder:text-gray-400 placeholder:font-normal transform';
     
     if (isFocused) {
-      return `${baseClasses} border-blue-400 bg-blue-50/30 shadow-md shadow-blue-100/50 ring-2 ring-blue-200/50`;
+      return `${baseClasses} border-blue-400 bg-blue-50/30 shadow-elevation-2 shadow-blue-100/50 ring-2 ring-blue-200/50 scale-[1.01]`;
     }
     if (hasValue) {
-      return `${baseClasses} border-gray-300 bg-gray-50/50 hover:border-gray-400`;
+      return `${baseClasses} border-gray-300 bg-gray-50/50 hover:border-gray-400 hover:shadow-elevation-1`;
     }
-    return `${baseClasses} border-gray-200 bg-gray-50/50 hover:border-gray-300 focus:border-blue-500 focus:bg-blue-50/50 focus:ring-4 focus:ring-blue-100`;
+    return `${baseClasses} border-gray-200 bg-gray-50/50 hover:border-gray-300 hover:shadow-elevation-1 hover:bg-white/80 focus:border-blue-500 focus:bg-blue-50/50 focus:ring-4 focus:ring-blue-100 focus:scale-[1.01]`;
   };
 
   return (
