@@ -58,18 +58,35 @@ const AdminDashboard: React.FC = () => {
   const fetchData = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const headers = { Authorization: `Bearer ${token}` };
+      if (!token) {
+        console.error('No token found');
+        navigate('/admin');
+        return;
+      }
 
-      // Fetch KYC applications
-      const kycResponse = await axios.get('http://localhost:5000/api/kyc', { headers });
+      console.log('Fetching KYC data...');
+
+      // Fetch KYC applications using axios directly with proper endpoint
+      const kycResponse = await axios.get('http://localhost:5000/api/kyc', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      console.log('KYC Response:', kycResponse.data);
+      
       if (kycResponse.data.success) {
         const applications = kycResponse.data.data.kycs || [];
+        console.log('Applications loaded:', applications.length);
         setKycApplications(applications);
         setFilteredApplications(applications);
       }
 
       // Fetch statistics
-      const statsResponse = await axios.get('http://localhost:5000/api/kyc/statistics', { headers });
+      const statsResponse = await axios.get('http://localhost:5000/api/kyc/statistics', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      console.log('Stats Response:', statsResponse.data);
+      
       if (statsResponse.data.success) {
         const statsData = statsResponse.data.data.statusBreakdown || {};
         setStatistics({
@@ -84,10 +101,19 @@ const AdminDashboard: React.FC = () => {
       setLoading(false);
     } catch (error: any) {
       console.error('Error fetching data:', error);
-      showNotification('error', error.response?.data?.message || 'Failed to fetch data');
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      
+      if (error.response?.status === 401) {
+        showNotification('error', 'Session expired. Please login again.');
+        localStorage.removeItem('token');
+        navigate('/admin');
+      } else {
+        showNotification('error', error.response?.data?.message || 'Failed to fetch data');
+      }
       setLoading(false);
     }
-  }, [showNotification]);
+  }, [showNotification, navigate]);
 
   useEffect(() => {
     // Check if user is logged in
@@ -125,7 +151,11 @@ const AdminDashboard: React.FC = () => {
 
   const updateStatus = useCallback(async (id: string, newStatus: string) => {
     const app = kycApplications.find(a => a._id === id);
-    if (!app) return;
+    if (!app) {
+      console.error('Application not found:', id);
+      showNotification('error', 'Application not found');
+      return;
+    }
 
     const statusText = newStatus.replace('_', ' ').toUpperCase();
     const confirmMessage = `Are you sure you want to change "${app.name}"'s application status to ${statusText}?`;
@@ -137,11 +167,21 @@ const AdminDashboard: React.FC = () => {
     setUpdatingStatus(id);
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        showNotification('error', 'Please login again');
+        navigate('/admin');
+        return;
+      }
+
+      console.log('Updating status for:', id, 'to:', newStatus);
+      
       const response = await axios.patch(
         `http://localhost:5000/api/kyc/${id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      console.log('Status update response:', response.data);
 
       if (response.data.success) {
         showNotification('success', `Application ${statusText} successfully!`);
@@ -154,13 +194,15 @@ const AdminDashboard: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Error updating status:', error);
+      console.error('Error response:', error.response?.data);
       showNotification('error', error.response?.data?.message || 'Failed to update status');
     } finally {
       setUpdatingStatus(null);
     }
-  }, [kycApplications, showNotification, activeFilter, filterApplications, fetchData]);
+  }, [kycApplications, showNotification, activeFilter, filterApplications, fetchData, navigate]);
 
   const viewDetails = useCallback((app: KycApplication) => {
+    console.log('Viewing details for:', app._id, app.name);
     setSelectedApplication(app);
     setShowDetailsModal(true);
   }, []);
@@ -317,11 +359,16 @@ const AdminDashboard: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => viewDetails(app)}
-                            className="p-2 text-brand-white/70 hover:text-brand-white hover:bg-brand-white/10 rounded-lg transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('View Details button clicked for:', app._id);
+                              viewDetails(app);
+                            }}
+                            className="p-2 text-brand-white/70 hover:text-brand-white hover:bg-brand-white/10 rounded-lg transition-colors cursor-pointer"
                             title="View Details"
+                            type="button"
                           >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.206 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
@@ -338,22 +385,32 @@ const AdminDashboard: React.FC = () => {
                           <div className="h-4 w-px bg-brand-gray/30 mx-1"></div>
 
                           <button
-                            onClick={() => updateStatus(app._id, 'approved')}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('Approve button clicked for:', app._id);
+                              updateStatus(app._id, 'approved');
+                            }}
                             disabled={updatingStatus === app._id || app.status === 'approved'}
-                            className="p-2 text-green-400 hover:bg-green-400/10 rounded-lg disabled:opacity-30 transition-colors"
+                            className="p-2 text-green-400 hover:bg-green-400/10 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                             title="Approve"
+                            type="button"
                           >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
                             </svg>
                           </button>
                           <button
-                            onClick={() => updateStatus(app._id, 'rejected')}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('Reject button clicked for:', app._id);
+                              updateStatus(app._id, 'rejected');
+                            }}
                             disabled={updatingStatus === app._id || app.status === 'rejected'}
-                            className="p-2 text-red-400 hover:bg-red-400/10 rounded-lg disabled:opacity-30 transition-colors"
+                            className="p-2 text-red-400 hover:bg-red-400/10 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                             title="Reject"
+                            type="button"
                           >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                           </button>
@@ -370,8 +427,17 @@ const AdminDashboard: React.FC = () => {
 
       {/* Details Modal */}
       {showDetailsModal && selectedApplication && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-brand-gray/30 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          onClick={(e) => {
+            // Close modal when clicking backdrop
+            if (e.target === e.currentTarget) {
+              console.log('Modal backdrop clicked');
+              closeModal();
+            }
+          }}
+        >
+          <div className="bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-brand-gray/30 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-sm px-6 py-4 border-b border-gray-200 dark:border-brand-gray/20 flex justify-between items-center z-10">
               <h3 className="text-lg font-bold text-gray-900 dark:text-brand-white">Application Details</h3>
               <button onClick={closeModal} className="text-brand-white/50 hover:text-brand-white transition-colors">
@@ -433,10 +499,12 @@ const AdminDashboard: React.FC = () => {
                             await fetchData();
                           }
                         } catch (error: any) {
-                          showNotification('error', 'Failed to regenerate');
+                          console.error('Failed to regenerate summary:', error);
+                          showNotification('error', error.response?.data?.message || 'Failed to regenerate');
                         }
                       }}
-                      className="text-xs text-brand-accent hover:text-brand-white transition-colors"
+                      className="text-xs text-brand-accent hover:text-brand-white transition-colors cursor-pointer"
+                      type="button"
                     >
                       Regenerate
                     </button>
@@ -451,27 +519,35 @@ const AdminDashboard: React.FC = () => {
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-brand-gray/20">
                 <button
                   onClick={() => {
+                    console.log('Modal Approve clicked for:', selectedApplication._id);
                     updateStatus(selectedApplication._id, 'approved');
                     closeModal();
                   }}
                   disabled={selectedApplication.status === 'approved'}
-                  className="px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/20 rounded-lg hover:bg-green-500/20 disabled:opacity-30 transition-colors text-sm font-bold"
+                  className="px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/20 rounded-lg hover:bg-green-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold cursor-pointer"
+                  type="button"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => {
+                    console.log('Modal Reject clicked for:', selectedApplication._id);
                     updateStatus(selectedApplication._id, 'rejected');
                     closeModal();
                   }}
                   disabled={selectedApplication.status === 'rejected'}
-                  className="px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg hover:bg-red-500/20 disabled:opacity-30 transition-colors text-sm font-bold"
+                  className="px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg hover:bg-red-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold cursor-pointer"
+                  type="button"
                 >
                   Reject
                 </button>
                 <button
-                  onClick={closeModal}
-                  className="px-4 py-2 bg-brand-white/5 text-brand-white border border-brand-white/10 rounded-lg hover:bg-brand-white/10 transition-colors text-sm font-bold"
+                  onClick={() => {
+                    console.log('Modal Close clicked');
+                    closeModal();
+                  }}
+                  className="px-4 py-2 bg-brand-white/5 text-brand-white border border-brand-white/10 rounded-lg hover:bg-brand-white/10 transition-colors text-sm font-bold cursor-pointer"
+                  type="button"
                 >
                   Close
                 </button>
