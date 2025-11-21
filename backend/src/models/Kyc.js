@@ -15,8 +15,7 @@ const kycSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please provide a valid email address'],
-    index: true // Create index for faster queries
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please provide a valid email address']
   },
   address: {
     type: String,
@@ -26,8 +25,7 @@ const kycSchema = new mongoose.Schema({
   nid: {
     type: String,
     trim: true,
-    sparse: true, // Allow multiple null values, but unique non-null values
-    index: true
+    sparse: true // Allow multiple null values, but unique non-null values
   },
   occupation: {
     type: String,
@@ -45,15 +43,13 @@ const kycSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'under_review'],
-    default: 'pending',
-    index: true
+    default: 'pending'
   },
   
   // Metadata
   submittedAt: {
     type: Date,
-    default: Date.now,
-    index: true
+    default: Date.now
   },
   updatedAt: {
     type: Date,

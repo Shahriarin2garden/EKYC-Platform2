@@ -66,14 +66,32 @@ const kycRoutes = require('./routes/kycRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 // Middleware
-// Configure CORS to allow requests from frontend
+// Configure CORS - Allow all origins for now since we're having issues
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: true, // Allow all origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  maxAge: 86400, // Cache preflight for 24 hours
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
+
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.options('*', cors(corsOptions)); // Enable preflight for all routes
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Add request logging middleware
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.path}`, { 
+    ip: req.ip, 
+    origin: req.get('origin'),
+    userAgent: req.get('user-agent')
+  });
+  next();
+});
 
 // Health check route - Railway needs this to pass health checks
 app.get('/api/health', (req, res) => {
@@ -102,17 +120,36 @@ app.get('/', (req, res) => {
   });
 });
 
-// API Routes
-app.use('/api/kyc', kycRoutes);
-app.use('/api/admin', adminRoutes);
+// Explicit OPTIONS handler for CORS preflight
+app.options('/api/*', (req, res) => {
+  res.status(204).send();
+});
+
+// API Routes with error boundary
+try {
+  app.use('/api/kyc', kycRoutes);
+  app.use('/api/admin', adminRoutes);
+} catch (err) {
+  logger.error('Route initialization error', { error: err.message });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  logger.error('Internal server error', { error: err.message, stack: err.stack, path: req.path });
-  res.status(500).json({
+  logger.error('Internal server error', { 
+    error: err.message, 
+    stack: err.stack, 
+    path: req.path,
+    method: req.method,
+    body: req.body
+  });
+  
+  // Don't leak error details in production
+  res.status(err.status || 500).json({
     success: false,
-    message: 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    message: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : err.message,
+    error: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 });
 
