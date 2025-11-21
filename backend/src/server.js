@@ -90,12 +90,17 @@ app.use((req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || '0.0.0.0';
+const PORT = Number.parseInt(process.env.PORT, 10) || 5000;
+const HOST = '0.0.0.0';
+
+// Add error handling for server startup
 const server = app.listen(PORT, HOST, () => {
-  logger.info(`EKYC API Server running on port ${PORT}`);
+  logger.info(`EKYC API Server running on ${HOST}:${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
   logger.info(`PDF Worker: ${process.env.RABBITMQ_URL ? 'Enabled' : 'Disabled (RabbitMQ URL not configured)'}`);
+}).on('error', (err) => {
+  logger.error('Server failed to start', { error: err.message, port: PORT });
+  process.exit(1);
 });
 
 // Graceful shutdown
