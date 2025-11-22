@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "cd frontend && npm install",
+  "framework": "create-react-app",
+  "devCommand": "cd frontend && npm start",
+  "env": {
+    "REACT_APP_API_URL": "https://ekyc-platform-3d-premium-production.up.railway.app/api"
+  }
+}
