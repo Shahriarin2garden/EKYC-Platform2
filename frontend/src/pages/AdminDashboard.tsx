@@ -475,7 +475,7 @@ const AdminDashboard: React.FC = () => {
             <div className="sticky top-0 bg-black px-8 py-6 border-b border-slate-700 flex justify-between items-start z-20 relative">
               <div className="space-y-3">
                 <div className="flex items-center space-x-4">
-                  <h3 id="modal-title" className="text-3xl font-black text-gray-900 dark:text-brand-white tracking-tight">Application Details</h3>
+                  <h3 id="modal-title" className="text-3xl font-black text-gray-900 dark:text-brand-white tracking-tight">✓ Application Details</h3>
                   <div className="flex items-center space-x-2">
                     <div className={`h-3 w-3 rounded-full ${selectedApplication.status === 'approved' ? 'bg-green-500' : selectedApplication.status === 'rejected' ? 'bg-red-500' : 'bg-yellow-500'}`}></div>
                     <span className={`px-4 py-2 inline-flex text-sm font-bold rounded-full border ${getStatusBadgeColor(selectedApplication.status)} shadow-lg`}>
@@ -512,13 +512,11 @@ const AdminDashboard: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-2xl font-black text-gray-900 dark:text-brand-white mb-2 tracking-tight">{selectedApplication.name}</h4>
-                      <p className="text-lg text-gray-600 dark:text-brand-white/70 font-medium mb-3">{selectedApplication.occupation || 'No occupation listed'}</p>
-                      <div className="flex items-center space-x-4 text-sm">
-                        <div className="flex items-center text-gray-500 dark:text-brand-white/50">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
+                      <h4 className="text-2xl font-black bg-gradient-to-r from-brand-white to-brand-white/90 bg-clip-text text-transparent mb-2 tracking-tight">{selectedApplication.name}</h4>
+                      <p className="text-lg text-brand-white/80 font-medium mb-3 flex items-center space-x-2"><span>💼</span><span>{selectedApplication.occupation || 'Professional'}</span></p>
+                        <div className="flex items-center space-x-4 text-sm">
+                        <div className="flex items-center text-brand-white/70">
+                          <span className="mr-2">📅</span>
                           <span>{new Date(selectedApplication.submittedAt).toLocaleDateString()}</span>
                         </div>
                         <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-brand-white/20"></div>
@@ -532,9 +530,9 @@ const AdminDashboard: React.FC = () => {
 
                 {/* Detailed Info Grid - Enhanced */}
                 <div className="space-y-4 animate-fadeInUp delay-100">
-                  <div className="flex items-center space-x-2 mb-6">
+                  <div className="flex items-center space-x-3 mb-6">
                     <div className="w-1 h-6 bg-gradient-to-b from-brand-accent to-purple-500 rounded-full"></div>
-                    <h4 className="text-sm font-black uppercase tracking-wider text-brand-white/70">Personal Information</h4>
+                    <h4 className="text-sm font-black uppercase tracking-wider text-brand-white/70">👤 Personal Information</h4>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {[
@@ -582,8 +580,8 @@ const AdminDashboard: React.FC = () => {
                           </svg>
                         </div>
                         <div>
-                          <h4 className="font-black text-brand-white text-lg tracking-tight">AI Analysis</h4>
-                          <p className="text-xs text-brand-white/50">Intelligent Review Summary</p>
+                          <h4 className="font-black text-brand-white text-lg tracking-tight">🧠 AI Analysis</h4>
+                          <p className="text-xs text-brand-white/50">Smart Review Summary</p>
                         </div>
                       </div>
                       <button
@@ -622,9 +620,9 @@ const AdminDashboard: React.FC = () => {
 
                 {/* Action Buttons - Enhanced Horizontal Layout */}
                 <div className="mt-auto bg-slate-900/50 rounded-3xl p-7 border border-slate-700/50 animate-fadeInUp delay-200">
-                  <div className="flex items-center space-x-2 mb-6">
+                  <div className="flex items-center space-x-3 mb-6">
                     <div className="w-1 h-6 bg-gradient-to-b from-brand-accent to-purple-500 rounded-full"></div>
-                    <h4 className="text-sm font-black uppercase tracking-wider text-brand-white/70">Review Actions</h4>
+                    <h4 className="text-sm font-black uppercase tracking-wider text-brand-white/70">⚡ Review Actions</h4>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4 w-full">
@@ -637,10 +635,10 @@ const AdminDashboard: React.FC = () => {
                       className="group relative py-4 px-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-2xl font-bold shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                      <svg className="w-5 h-5 relative z-10 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 relative z-10 flex-shrink-0 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="relative z-10">Approve</span>
+                      <span className="relative z-10">✓ Approve</span>
                     </button>
                     
                     <button
@@ -649,10 +647,10 @@ const AdminDashboard: React.FC = () => {
                         closeModal();
                       }}
                       disabled={selectedApplication.status === 'rejected'}
-                      className="group relative py-4 px-4 bg-white dark:bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
+                      className="group relative py-4 px-4 bg-gradient-to-r from-red-500/10 to-pink-500/10 border-2 border-red-500/60 text-red-400 hover:border-red-500 hover:text-red-300 hover:from-red-500/20 hover:to-pink-500/20 rounded-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
                     >
-                      <div className="absolute inset-0 bg-red-500/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                      <svg className="w-5 h-5 relative z-10 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                      <svg className="w-5 h-5 relative z-10 flex-shrink-0 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                       <span className="relative z-10">Reject</span>
