@@ -58,6 +58,91 @@ The demo showcases:
 - **Security** - Password hashing, JWT tokens, and protected routes
 - **Performance** - Indexed database queries and optimized API endpoints
 
+## System Architecture
+
+### Main System Architecture
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#0077b5','primaryTextColor':'#fff','primaryBorderColor':'#005582','lineColor':'#0077b5','secondaryColor':'#00a0dc','tertiaryColor':'#f3f6f8'}}}%%
+
+graph TB
+    subgraph "👥 Users"
+        U1[👤 KYC Applicant]
+        U2[👨‍💼 Admin User]
+    end
+
+    subgraph "🌐 Frontend - Vercel"
+        FE[⚛️ React App<br/>TypeScript + TailwindCSS<br/>3D UI Components]
+    end
+
+    subgraph "🚀 Backend - Railway"
+        API[Express.js API Server<br/>Node.js 20]
+        AUTH[🔐 JWT Authentication]
+        CTRL[Controllers]
+    end
+
+    subgraph "⚙️ Core Services"
+        AI[🤖 AI Service<br/>OpenRouter API]
+        PDF[📄 PDF Generator<br/>In-Memory PDFKit]
+        LOG[📝 Logger<br/>Winston]
+    end
+
+    subgraph "💾 Database"
+        DB[(MongoDB Atlas<br/>Cloud Cluster<br/>3 Replicas)]
+    end
+
+    U1 -->|Submit KYC| FE
+    U2 -->|Login & Manage| FE
+    FE <-->|REST API<br/>HTTPS| API
+    API --> AUTH
+    AUTH --> CTRL
+    CTRL --> AI
+    CTRL --> PDF
+    CTRL --> LOG
+    CTRL <--> DB
+    AI -.->|API Call| OpenRouter[☁️ OpenRouter AI]
+
+    style FE fill:#61dafb,stroke:#333,color:#000
+    style API fill:#68a063,stroke:#333,color:#fff
+    style DB fill:#4db33d,stroke:#333,color:#fff
+    style AI fill:#9b59b6,stroke:#333,color:#fff
+    style PDF fill:#ffa502,stroke:#333,color:#000
+```
+
+### High-Level Data Flow
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#0077b5'}}}%%
+
+sequenceDiagram
+    autonumber
+    participant 👤 User
+    participant ⚛️ React
+    participant 🚀 API
+    participant 🤖 AI
+    participant 💾 DB
+    participant 📄 PDF
+
+    👤 User->>⚛️ React: Submit KYC Form
+    ⚛️ React->>🚀 API: POST /api/kyc/submit
+    🚀 API->>🤖 AI: Generate Summary
+    🤖 AI-->>🚀 API: AI Analysis
+    🚀 API->>💾 DB: Save Application
+    💾 DB-->>🚀 API: Confirmed
+    🚀 API-->>⚛️ React: Success
+    ⚛️ React-->>👤 User: ✅ Submitted
+    
+    Note over 👤 User,📄 PDF: Admin Reviews & Downloads PDF
+    
+    👤 User->>⚛️ React: Request PDF
+    ⚛️ React->>🚀 API: Generate PDF
+    🚀 API->>📄 PDF: Create Report
+    📄 PDF->>📄 PDF: In-Memory Buffer
+    📄 PDF-->>🚀 API: PDF Stream
+    🚀 API-->>⚛️ React: Download
+    ⚛️ React-->>👤 User: 📥 PDF File
+```
+
 ## Features
 
 ### Current Features (v2.1.0) - Production Ready
