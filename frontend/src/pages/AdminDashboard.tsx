@@ -467,14 +467,12 @@ const AdminDashboard: React.FC = () => {
           >
             <dialog 
               open
-              className="bg-gradient-to-b from-gray-900/95 via-slate-800/95 to-black/98 border border-gray-200 dark:border-brand-gray/20 rounded-3xl max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl animate-scaleIn relative flex flex-col backdrop-blur-xl" 
+              className="bg-black border border-slate-700 rounded-3xl max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl animate-scaleIn relative flex flex-col" 
               aria-labelledby="modal-title"
             >
-            {/* Decorative gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/10 via-transparent to-purple-500/5 pointer-events-none rounded-3xl"></div>
 
             {/* Modal Header with enhanced styling */}
-            <div className="sticky top-0 bg-gradient-to-r from-gray-900/95 via-slate-800/95 to-gray-900/95 backdrop-blur-xl px-8 py-6 border-b border-brand-white/10 flex justify-between items-start z-20 relative">
+            <div className="sticky top-0 bg-black px-8 py-6 border-b border-slate-700 flex justify-between items-start z-20 relative">
               <div className="space-y-3">
                 <div className="flex items-center space-x-4">
                   <h3 id="modal-title" className="text-3xl font-black text-gray-900 dark:text-brand-white tracking-tight">Application Details</h3>
@@ -506,7 +504,7 @@ const AdminDashboard: React.FC = () => {
                 {/* Profile Header - Enhanced */}
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl transition-all duration-500 group-hover:opacity-100 opacity-0"></div>
-                  <div className="relative flex items-center space-x-6 p-8 bg-gradient-to-br from-slate-800/60 to-slate-900/40 rounded-3xl border border-brand-white/15 backdrop-blur-xl hover-lift">
+                  <div className="relative flex items-center space-x-6 p-8 bg-slate-900/50 rounded-3xl border border-slate-700/50 hover-lift">
                     <div className="relative">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-lg opacity-75"></div>
                       <div className="relative w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl">
@@ -548,7 +546,7 @@ const AdminDashboard: React.FC = () => {
                       <div key={item.label} className={`group animate-stagger delay-${index * 75}`}>
                         <div className="relative h-full">
                           <div className={`absolute inset-0 bg-gradient-to-br ${item.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
-                          <div className="relative h-full p-5 bg-gradient-to-br from-slate-800/60 to-slate-900/40 rounded-2xl border border-brand-white/15 hover-lift backdrop-blur-sm">
+                          <div className="relative h-full p-5 bg-slate-900/50 rounded-2xl border border-slate-700/50 hover-lift">
                             <div className="flex items-start space-x-3">
                               <div className={`p-3 bg-gradient-to-br ${item.color} rounded-lg text-white shadow-lg flex-shrink-0`}>
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -573,7 +571,7 @@ const AdminDashboard: React.FC = () => {
                 {/* AI Analysis Card - Premium Design */}
                 <div className="group relative h-fit">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative bg-gradient-to-br from-slate-800/60 to-slate-900/40 rounded-3xl p-7 border border-brand-white/15 backdrop-blur-xl overflow-hidden">
+                  <div className="relative bg-slate-900/50 rounded-3xl p-7 border border-slate-700/50 overflow-hidden">
                     <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full blur-3xl opacity-10"></div>
                     
                     <div className="flex items-center justify-between mb-5 relative z-10">
@@ -614,7 +612,7 @@ const AdminDashboard: React.FC = () => {
                       </button>
                     </div>
                     
-                    <div className="bg-slate-700/40 rounded-2xl p-5 border border-brand-white/10 backdrop-blur-sm relative z-10 max-h-60 overflow-y-auto">
+                    <div className="bg-black/50 rounded-2xl p-5 border border-slate-700/50 relative z-10 max-h-60 overflow-y-auto">
                       <p className="text-sm leading-relaxed text-brand-white/90 font-medium">
                         {selectedApplication.aiSummary || <span className="text-brand-white/50 italic">No AI summary available for this application.</span>}
                       </p>
@@ -623,7 +621,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 {/* Action Buttons - Enhanced Horizontal Layout */}
-                <div className="mt-auto bg-gradient-to-br from-slate-800/60 to-slate-900/40 rounded-3xl p-7 border border-brand-white/15 backdrop-blur-xl animate-fadeInUp delay-200">
+                <div className="mt-auto bg-slate-900/50 rounded-3xl p-7 border border-slate-700/50 animate-fadeInUp delay-200">
                   <div className="flex items-center space-x-2 mb-6">
                     <div className="w-1 h-6 bg-gradient-to-b from-brand-accent to-purple-500 rounded-full"></div>
                     <h4 className="text-sm font-black uppercase tracking-wider text-brand-white/70">Review Actions</h4>
