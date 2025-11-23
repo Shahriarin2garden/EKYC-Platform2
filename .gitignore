@@ -79,6 +79,3 @@ backend/pdfs/*.pdf
 # Exclude all shell scripts
 *.sh
 
-# Re-include shell scripts referenced in README.md
-!docker-start.sh
-
