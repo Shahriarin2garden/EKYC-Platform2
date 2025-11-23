@@ -536,10 +536,10 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {[
-                      { label: 'Email Address', value: selectedApplication.email, icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', color: 'from-blue-500 to-cyan-500' },
-                      { label: 'National ID', value: selectedApplication.nid || 'N/A', icon: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0c0 .884-.5 2-2 2h4c-1.5 0-2-1.116-2-2z', color: 'from-purple-500 to-pink-500' },
-                      { label: 'Address', value: selectedApplication.address || 'N/A', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', color: 'from-green-500 to-emerald-500' },
-                      { label: 'Last Updated', value: selectedApplication.updatedAt ? new Date(selectedApplication.updatedAt).toLocaleDateString() : 'N/A', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', color: 'from-orange-500 to-red-500' },
+                      { label: 'Email Address', value: selectedApplication.email, icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', color: 'from-brand-accent to-blue-500' },
+                      { label: 'National ID', value: selectedApplication.nid || 'N/A', icon: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0c0 .884-.5 2-2 2h4c-1.5 0-2-1.116-2-2z', color: 'from-purple-500 to-brand-accent' },
+                      { label: 'Address', value: selectedApplication.address || 'N/A', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', color: 'from-brand-cyan to-cyan-400' },
+                      { label: 'Last Updated', value: selectedApplication.updatedAt ? new Date(selectedApplication.updatedAt).toLocaleDateString() : 'N/A', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', color: 'from-amber-500 to-orange-500' },
                     ].map((item, index) => (
                       <div key={item.label} className={`group animate-stagger delay-${index * 75}`}>
                         <div className="relative h-full">
@@ -632,7 +632,7 @@ const AdminDashboard: React.FC = () => {
                         closeModal();
                       }}
                       disabled={selectedApplication.status === 'approved'}
-                      className="group relative py-4 px-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-2xl font-bold shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
+                      className="group relative py-4 px-4 bg-gradient-to-r from-brand-accent to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-2xl font-bold shadow-lg shadow-brand-accent/30 hover:shadow-xl hover:shadow-blue-600/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                       <svg className="w-5 h-5 relative z-10 flex-shrink-0 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -647,9 +647,9 @@ const AdminDashboard: React.FC = () => {
                         closeModal();
                       }}
                       disabled={selectedApplication.status === 'rejected'}
-                      className="group relative py-4 px-4 bg-gradient-to-r from-red-500/10 to-pink-500/10 border-2 border-red-500/60 text-red-400 hover:border-red-500 hover:text-red-300 hover:from-red-500/20 hover:to-pink-500/20 rounded-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
+                      className="group relative py-4 px-4 bg-gradient-to-r from-slate-700/70 to-slate-600/50 border-2 border-slate-600/80 text-slate-200 hover:border-slate-500/80 hover:text-slate-100 hover:from-slate-700/80 hover:to-slate-600/60 rounded-2xl font-bold shadow-lg shadow-slate-900/30 hover:shadow-xl hover:shadow-slate-800/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-lift flex items-center justify-center space-x-2 overflow-hidden text-sm sm:text-base"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                       <svg className="w-5 h-5 relative z-10 flex-shrink-0 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
