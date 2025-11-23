@@ -67,11 +67,7 @@ adminSchema.pre('save', async function(next) {
 
 // Instance method to compare password
 adminSchema.methods.comparePassword = async function(candidatePassword) {
-  try {
-    return await bcrypt.compare(candidatePassword, this.password);
-  } catch (error) {
-    throw new Error('Password comparison failed');
-  }
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Instance method to generate JWT token
